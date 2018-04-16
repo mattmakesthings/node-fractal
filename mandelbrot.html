@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <script>
+        // var myCanvas = document.createElement("canvas");
+        // myCanvas.width=window.innerWidth;
+        // myCanvas.height=window.innerHeight;
+        //
+        // xMin = xmin;
+        // xMax = xmax;
+        // yMin = ymin;
+        // yMax = ymax;
+        //
+        // document.body.appendChild(myCanvas);
+        // var ctx = myCanvas.getContext("2d");
+        // var frame = 0;
+        // var magnificationFactor = 2900;
+        // var panX = .7;
+        // var panY = .6;
+        // var maxIterations = 300;
+        // var color = 0;
+        // function mandelbrot() {
+        //     function checkIfBelongsToMandelbrotSet(x,y) {
+        //         var realComponentOfResult = x;
+        //         var imaginaryComponentOfResult = y;
+        //
+        //         for(var i = 0; i < maxIterations; i++) {
+        //              var tempRealComponent = realComponentOfResult * realComponentOfResult
+        //                                      - imaginaryComponentOfResult * imaginaryComponentOfResult
+        //                                      + x;
+        //              var tempImaginaryComponent = 2 * realComponentOfResult * imaginaryComponentOfResult
+        //                                      + y;
+        //              realComponentOfResult = tempRealComponent;
+        //              imaginaryComponentOfResult = tempImaginaryComponent;
+        //
+        //              // Return a number as a percentage
+        //              if(realComponentOfResult * imaginaryComponentOfResult > 3)
+        //                 return (i/maxIterations * 100);
+        //         }
+        //         return 0;   // Return zero if in set
+        //     }
+        //
+        //     for(var x=0; x > xMin && x < xMax; x++) {
+        //        for(var y=0; y > yMin && y < yMax; y++) {
+        //            var belongsToSet =
+        //                 checkIfBelongsToMandelbrotSet(x/magnificationFactor - panX,
+        //                                               y/magnificationFactor - panY);
+        //               if(belongsToSet == 0) {
+        //                    ctx.fillStyle = '#000';
+        //                    ctx.fillRect(x,y, 1,1); // Draw a black pixel
+        //                } else {
+        //                    ctx.fillStyle = 'hsl('+color+', 100%, ' + belongsToSet + '%)';
+        //                    ctx.fillRect(x,y, 1,1); // Draw a colorful pixel
+        //                }
+        //        }
+        //     }
+        //
+        //
+        //     frame++;
+        //     if (frame % 360/4 == 0)
+        //         color = 0;
+        //     color+=4;
+        //     magnificationFactor+=frame*10;
+        //     panX -= 1/(magnificationFactor );
+        //     panY -= 1/(magnificationFactor );
+        //     };
+        //
+        //     a = setInterval(mandelbrot,10)
+        </script>
+        <div id = "drawing"></div>
+    </body>
+</html>

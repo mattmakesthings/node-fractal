@@ -1,0 +1,46 @@
+<html>
+<body>
+<canvas id="myCanvas" width="800" height="800"></canvas>
+<script>
+var creal = -.8
+var cimag = .156;
+var canvas = document.getElementById('myCanvas');
+var context = canvas.getContext('2d');
+var frame = 0; // new variable to track the current frame number
+
+function julia() // the program drawing the fractal
+{                // is now a function so that it can be called periodically
+        for(y=0;y<400;y++)
+                {
+                for(x=0;x<400;x++)
+                        {
+                        var cx=-2+x/50;
+                        var cy=-2+y/50;
+                        var i = 0;
+
+                        do
+                                {
+                                xt=cx*cx-cy*cy+creal;
+                                cy=2*cx*cy+cimag;
+                                cx=xt;
+                                i++;
+                                }
+                        while ((cx*cx+cy*cy<10)&&i<25);
+
+                        i=i.toString(16);
+                        context.beginPath();
+                        context.rect(x*4, y*4, 4, 4);
+                        context.fillStyle ='#'+i+i+i;
+                        context.fill();
+                        }
+                }
+        frame++;        // increase the number of the frame
+        creal=-.8+.6*Math.sin(frame/(3.14*20));    // calculate the new coordinates
+        cimag=.156+.4*Math.cos(frame/(3.14*40));   // of the c point
+}
+
+a=setInterval(julia,100); //redraw the fractal every 100ms
+
+</script>
+</body>
+</html>
