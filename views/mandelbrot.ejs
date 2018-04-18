@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <script>
+        var myCanvas = document.createElement("canvas");
+        myCanvas.width=1000;
+        myCanvas.height=1000;
+        arr = <%= imagearr %>;
+
+        for( let i = 0 ; i < arr.length; i ++){
+            ctx.fillStyle = arr[i].fill
+            ctx.fillRect(arr[i].x. arr[i].y, 1, 1);
+        }
+        </script>
+        <div id = "drawing"></div>
+    </body>
+</html>
