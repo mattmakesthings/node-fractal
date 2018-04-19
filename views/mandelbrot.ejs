@@ -3,6 +3,8 @@
     <body>
         <script>
         var myCanvas = document.createElement("canvas");
+		document.body.appendChild(myCanvas);
+		var ctx = myCanvas.getContext("2d");
         myCanvas.width=1000;
         myCanvas.height=1000;
         arr = <%= imagearr %>;

@@ -1,6 +1,6 @@
 
 function mandelbrotCalc(space, frame){
-	let retarr = [];
+
 
 	if (typeof mandelbrotCalc.color == 'undefined'){
 		mandelbrotCalc.color = 0;
@@ -10,12 +10,17 @@ function mandelbrotCalc(space, frame){
 
 	}
 
+	let magnificationFactor = mandelbrotCalc.magnificationFactor;
+	let panX = mandelbrotCalc.panX;
+	let panY = mandelbrotCalc.panY;
+	let color = mandelbrotCalc.color;
+
 	maxIterations = 300;
 
-	xMin = space.xMin;
-	xMax = space.xMax;
-	yMin = space.yMin;
-	yMax = space.yMax;
+	let xMin = space.xMin;
+	let xMax = space.xMax;
+	let yMin = space.yMin;
+	let yMax = space.yMax;
 
 	// update color
 	if (frame % 360/4 == 0)
@@ -44,9 +49,9 @@ function mandelbrotCalc(space, frame){
 	        }
 	        return 0;   // Return zero if in set
 	    }
-
-	    for(var x=0; x > xMin && x < xMax; x++) {
-	       for(var y=0; y > yMin && y < yMax; y++) {
+		let retarr = [];
+	    for(var x=0; x >= xMin && x <= xMax; x++) {
+	       for(var y=0; y >= yMin && y <= yMax; y++) {
 	           var belongsToSet = checkIfBelongsToMandelbrotSet(x/magnificationFactor - panX,y/magnificationFactor - panY);
 	              if(belongsToSet == 0) {
 					  retarr.push({x:x, y:y, fill:'hsl(0,100%,0%)' });
@@ -56,14 +61,17 @@ function mandelbrotCalc(space, frame){
 	       	}
 	    }
 		return retarr;
-	};
+	}
 	return mandelbrot()
 }
 
 //calc and return to master
 process.on('message', function(message){
-	console.log('[child] message received from server: ' , message);
-	let manarr = mandelbrotCalc(message.calcArea, message.frame);
-	process.send({result:manarr});
-	process.disconnect();
+	console.log('[child] message received from server');
+	var manarr = mandelbrotCalc(message.calcArea, message.frame);
+	process.send({
+		result:manarr
+	});
+	console.log('[child] response sent to server');
+	process.exit();
 })
