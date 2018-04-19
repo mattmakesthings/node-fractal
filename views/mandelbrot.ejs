@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <p>hello</p>
+        <p>Fractal shit</p>
         <script>
         var myCanvas = document.createElement("canvas");
 		document.body.appendChild(myCanvas);
 		var ctx = myCanvas.getContext("2d");
-        myCanvas.width=1000;
-        myCanvas.height=1000;
-        let arr = '<%- JSON.stringify(imagearr) %>';
-        console.log(arr);
+        myCanvas.width=10000;
+        myCanvas.height=10000;
+        let arr = <%- JSON.stringify(imagearr) %>;
+        console.log(arr[0].length);
+        console.log(arr[0][1]);
         for( let i = 0 ; i < arr.length; i ++){
-            ctx.fillStyle = arr[i].fill
-
-            ctx.fillRect(arr[i].x, arr[i].y, 1, 1);
+            for( let j = 0; j < arr[i].length; j++){
+                ctx.fillStyle = arr[i][j].fill
+                ctx.fillRect(arr[i][j].x, arr[i][j].y, 1, 1);
+            }
         }
         </script>
         <div id = "drawing"></div>

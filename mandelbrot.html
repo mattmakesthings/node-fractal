@@ -6,10 +6,6 @@
         myCanvas.width=window.innerWidth;
         myCanvas.height=window.innerHeight;
 
-        xMin = xmin;
-        xMax = xmax;
-        yMin = ymin;
-        yMax = ymax;
 
         document.body.appendChild(myCanvas);
         var ctx = myCanvas.getContext("2d");
@@ -17,7 +13,7 @@
         var magnificationFactor = 2900;
         var panX = .7;
         var panY = .6;
-        var maxIterations = 300;
+        var maxIterations = 100;
         var color = 0;
         function mandelbrot() {
             function checkIfBelongsToMandelbrotSet(x,y) {
@@ -40,8 +36,8 @@
                 return 0;   // Return zero if in set
             }
 
-            for(var x=0; x > xMin && x < xMax; x++) {
-               for(var y=0; y > yMin && y < yMax; y++) {
+            for(var x=0;  x < myCanvas.width; x++) {
+               for(var y=0; y < myCanvas.height; y++) {
                    var belongsToSet =
                         checkIfBelongsToMandelbrotSet(x/magnificationFactor - panX,
                                                       y/magnificationFactor - panY);

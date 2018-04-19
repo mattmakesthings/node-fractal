@@ -4,7 +4,7 @@ function mandelbrotCalc(space, frame){
 
 	if (typeof mandelbrotCalc.color == 'undefined'){
 		mandelbrotCalc.color = 0;
-		mandelbrotCalc.magnificationFactor = 2900;
+		mandelbrotCalc.magnificationFactor = 300;
 		mandelbrotCalc.panX = .7;
 		mandelbrotCalc.panY = .6;
 
@@ -54,9 +54,9 @@ function mandelbrotCalc(space, frame){
 	       for(var y=yMin; y <= yMax; y++) {
 	           var belongsToSet = checkIfBelongsToMandelbrotSet(x/magnificationFactor - panX,y/magnificationFactor - panY);
 	              if(belongsToSet == 0) {
-					  retarr.push({x:x, y:y, fill:'#000' });
+					  retarr.push({x:x, y:y, fill:'hsl(0,0%,0%)' });
 	               } else {
-					  retarr.push({x:x, y:y, fill:'hsl('+color+', 100%, ' + belongsToSet + '%)'});
+					  retarr.push({x:x, y:y, fill:'hsl('+color+', 100%, ' + belongsToSet*20 + '%)'});
 	               }
 	       	}
 	    }
@@ -75,14 +75,14 @@ process.on('message', function(message){
 	process.send({
 		result	  : manarr,
 		workerNum : message.workerNum,
-		done 	  : false
+		allSent 	  : false
 	});
 
 	//}
 	process.send({
 		result 	  : undefined,
 		workerNum : message.workerNum,
-		done 	  : true
+		allSent	  : true
 	});
 	console.log('[child ' + message.workerNum + '] response sent to server');
 	process.exit();
