@@ -50,13 +50,13 @@ function mandelbrotCalc(space, frame){
 	        return 0;   // Return zero if in set
 	    }
 		let retarr = [];
-	    for(var x=0; x >= xMin && x <= xMax; x++) {
-	       for(var y=0; y >= yMin && y <= yMax; y++) {
+	    for(var x=xMin;  x <= xMax; x++) {
+	       for(var y=yMin; y <= yMax; y++) {
 	           var belongsToSet = checkIfBelongsToMandelbrotSet(x/magnificationFactor - panX,y/magnificationFactor - panY);
 	              if(belongsToSet == 0) {
-					  retarr.push({x:x, y:y, fill:'hsl(0,100%,0%)' });
+					  retarr.push({x:x, y:y, fill:'#000' });
 	               } else {
-					   retarr.push({x:x, y:y, fill:'hsl('+color+', 100%, ' + belongsToSet + '%)'});
+					  retarr.push({x:x, y:y, fill:'hsl('+color+', 100%, ' + belongsToSet + '%)'});
 	               }
 	       	}
 	    }
@@ -67,11 +67,23 @@ function mandelbrotCalc(space, frame){
 
 //calc and return to master
 process.on('message', function(message){
-	console.log('[child] message received from server');
-	var manarr = mandelbrotCalc(message.calcArea, message.frame);
+	console.log('[child ' + message.workerNum + ']  message received from server');
+	console.log(message.calcArea);
+	let manarr = mandelbrotCalc(message.calcArea, message.frame);
+	console.log(manarr.length);
+	//for (let i= 0; i < manarr.length; i++){
 	process.send({
-		result:manarr
+		result	  : manarr,
+		workerNum : message.workerNum,
+		done 	  : false
 	});
-	console.log('[child] response sent to server');
+
+	//}
+	process.send({
+		result 	  : undefined,
+		workerNum : message.workerNum,
+		done 	  : true
+	});
+	console.log('[child ' + message.workerNum + '] response sent to server');
 	process.exit();
 })

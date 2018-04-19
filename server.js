@@ -27,15 +27,15 @@ app.get('/', function(req, res){
 app.get('/mandelbrot', function(req,res){
 	function calcSpace(workerNum,numCPUs,totalX,totalY){
 	   if( typeof calcSpace.xlength == 'undefined'){
-		    calcSpace.xlength = totalX  ;
-   			calcSpace.ylength = totalY / (numCPUs);
+		    calcSpace.xlength = totalX / 2;
+   			calcSpace.ylength = totalY / (numCPUs/2);
 	   }
 
 	   if (workerNum % 2 == 0){
 		  xMin = 0;
 		  xMax = calcSpace.xlength-1;
-		  yMin = (workerNum/2)*calcSpace.ylength;
-		  yMax = yMin+calcSpace.ylength-1;
+		  yMin = Math.floor((workerNum/2)*calcSpace.ylength);
+		  yMax = Math.floor(yMin+calcSpace.ylength-1);
 		  return{
 			  xMin:xMin,
 			  xMax:xMax,
@@ -44,9 +44,9 @@ app.get('/mandelbrot', function(req,res){
 		  }
 	  }else{
 		  xMin = calcSpace.xlength;
-		  xMax = calcSpace.xlength*2;
-		  yMin = (workerNum/2)*calcSpace.ylength;
-		  yMax = yMin+calcSpace.ylength-1;
+		  xMax = calcSpace.xlength*2-1;
+		  yMin = Math.floor(((workerNum-1)/2)*calcSpace.ylength);
+		  yMax = Math.floor(yMin+calcSpace.ylength-1);
 		  return{
 			  xMin:xMin,
 			  xMax:xMax,
@@ -59,8 +59,8 @@ app.get('/mandelbrot', function(req,res){
 
 	console.log('Master ${process.pid} is running');
 
-	const totalX = 1000;
-	const totalY = 1000;
+	const totalX = 100;
+	const totalY = 100;
 	const cluster = require('cluster');
 
 
@@ -69,30 +69,30 @@ app.get('/mandelbrot', function(req,res){
 	let frame = 0;
 	let done  = 0;
 	let numCPUs = require('os').cpus().length/2;
-	numCPUs = 1;
+	numCPUs = 4;
 	for ( let i = 0; i < numCPUs; i++){
 		console.log('starting worker ' + i);
 		var child = child_process.fork('./childMandelbrot');
 		calcArea = calcSpace(i,numCPUs,totalX,totalY);
-		child.send({calcArea:calcArea, frame:frame});
+		child.send({calcArea:calcArea, frame:frame, workerNum:i});
 
 		child.on('message', function(msg){
-			console.log("[master] msg received from child");
-			imagearr.concat(msg.result);
-			done++
-
-			if ( done == numCPUs ){
-				console.log("all points calculated");
-				console.log(imagearr);
-				res.render('mandelbrot',{imagearr:imagearr});
-				imagearr = [];
-				done = 0;
-				frame++;
+			//console.log("[master] msg received from child " + msg.workerNum );
+			if(msg.done == false){
+				imagearr.push(msg.result);
+			}else{
+				done++;
+				if(done === numCPUs){
+					console.log("all points calculated");
+					//console.log(imagearr);
+					res.render('mandelbrot',{imagearr:imagearr});
+					imagearr = [];
+					done = 0;
+					frame++;
+				}
 			}
 		});
 	}
-
-
 });
 
 app.listen(sock,()=>console.log('App listening on port ' + sock ));

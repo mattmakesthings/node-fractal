@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html>
     <body>
+        <p>hello</p>
         <script>
         var myCanvas = document.createElement("canvas");
 		document.body.appendChild(myCanvas);
 		var ctx = myCanvas.getContext("2d");
         myCanvas.width=1000;
         myCanvas.height=1000;
-        arr = <%= imagearr %>;
-
+        let arr = '<%- JSON.stringify(imagearr) %>';
+        console.log(arr);
         for( let i = 0 ; i < arr.length; i ++){
             ctx.fillStyle = arr[i].fill
-            ctx.fillRect(arr[i].x. arr[i].y, 1, 1);
+
+            ctx.fillRect(arr[i].x, arr[i].y, 1, 1);
         }
         </script>
         <div id = "drawing"></div>
