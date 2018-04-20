@@ -1,3 +1,30 @@
+/*
+Project 3 - COMP584
+Matthew Weidman
+
+Project: implement a program in nodejs to generate a fractal image. Because nodejs
+provides multithreading functionality and fractal calculations are 'embarassingly parallel'
+this program will be an exercise in multithreading in node.js
+
+Issues: messages are being passed between master and child processes via process.send
+node.js seems to block or become irresponsive if the message size is too large. A hacky solution
+was to find a size that node could manage. This was the error that I've spent the most time on
+and still have been unable to resolve. This ended up limiting the resolution of the final image.
+
+Future plans: The end goal for this project was to have the fractal be animated and have
+the image update via ajax requests. 
+
+
+
+*/
+
+
+
+
+
+
+
+
 const express = require('express');
 const app = express();
 const fs = require('fs');
@@ -69,7 +96,7 @@ app.get('/mandelbrot', function(req,res){
 	let frame = 0;
 	let done  = 0;
 	let numCPUs = require('os').cpus().length/2;
-    
+
 	for ( let i = 0; i < numCPUs; i++){
 		console.log('starting worker ' + i);
 		var child = child_process.fork('./childMandelbrot');
