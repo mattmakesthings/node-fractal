@@ -12,18 +12,8 @@ was to find a size that node could manage. This was the error that I've spent th
 and still have been unable to resolve. This ended up limiting the resolution of the final image.
 
 Future plans: The end goal for this project was to have the fractal be animated and have
-the image update via ajax requests. 
-
-
-
+the image update via ajax requests.
 */
-
-
-
-
-
-
-
 
 const express = require('express');
 const app = express();
@@ -96,6 +86,7 @@ app.get('/mandelbrot', function(req,res){
 	let frame = 0;
 	let done  = 0;
 	let numCPUs = require('os').cpus().length/2;
+
 
 	for ( let i = 0; i < numCPUs; i++){
 		console.log('starting worker ' + i);
