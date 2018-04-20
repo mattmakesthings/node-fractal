@@ -5,14 +5,9 @@ Because node.js provides multithreading functionality and fractal calculations a
 ## Installing
 ```
 git clone https://github.com/mattmakesthings/node-fractal
-```
-then 
-```
 cd node-fractal
 npm install
 ```
-End with an example of getting some data out of the system or using it for a little demo
-
 ## Running 
 ```
 node server.js
