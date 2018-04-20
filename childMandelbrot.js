@@ -70,15 +70,20 @@ process.on('message', function(message){
 	console.log('[child ' + message.workerNum + ']  message received from server');
 	console.log(message.calcArea);
 	let manarr = mandelbrotCalc(message.calcArea, message.frame);
-	console.log(manarr.length);
-	//for (let i= 0; i < manarr.length; i++){
-	process.send({
-		result	  : manarr,
-		workerNum : message.workerNum,
-		allSent 	  : false
-	});
+	let chunk = []
 
-	//}
+	for (let i= 0; i < manarr.length; i++){
+		chunk.push(manarr[i]);
+		if (chunk.length == 500 || i == manarr.length-1){
+			process.send({
+				result	  : chunk,
+				workerNum : message.workerNum,
+				allSent   : false,
+				i 		  : i
+			});
+			chunk = [];
+		}
+	}
 	process.send({
 		result 	  : undefined,
 		workerNum : message.workerNum,

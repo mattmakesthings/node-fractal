@@ -69,7 +69,7 @@ app.get('/mandelbrot', function(req,res){
 	let frame = 0;
 	let done  = 0;
 	let numCPUs = require('os').cpus().length/2;
-	//ZznumCPUs = 1;
+    
 	for ( let i = 0; i < numCPUs; i++){
 		console.log('starting worker ' + i);
 		var child = child_process.fork('./childMandelbrot');
@@ -77,10 +77,13 @@ app.get('/mandelbrot', function(req,res){
 		child.send({calcArea:calcArea, frame:frame, workerNum:i});
 
 		child.on('message', function(msg){
-			//console.log("[master] msg received from child " + msg.workerNum );
+			console.log("[master] msg received from child " + msg.workerNum );
 			if(msg.allSent === false){
 				imagearr.push(msg.result);
-                console.log(msg.result);
+                console.log(msg.result.length)
+                if( msg.i > 10000){
+                console.log("msg" + msg.workerNum+" "+msg.i);
+                }
 			}else{
 				done++;
 				if(done === numCPUs){
