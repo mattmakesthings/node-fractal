@@ -26,7 +26,7 @@ in your browser (has only been tested with google chrome)
 
 ## Authors
 
-* **Matthew Weidman** - [PurpleBooth](https://github.com/mattmakesthings)
+* **Matthew Weidman** - [github](https://github.com/mattmakesthings)
 
 ## License
 
